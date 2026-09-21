@@ -1,0 +1,1947 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>AEGIS — Privacy Control Plane</title>
+
+<style>
+:root{
+  --bg:#050505;
+  --panel:#0b0b0d;
+  --panel2:#101013;
+  --line:#202025;
+  --text:#f4f4f5;
+  --muted:#77777f;
+  --green:#35e58a;
+  --yellow:#f5c451;
+  --red:#ff5555;
+  --blue:#5da9ff;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{min-height:100vh}
+
+button,input{font:inherit}
+
+button{cursor:pointer}
+
+.app{
+  max-width:900px;
+  margin:auto;
+  padding:18px 16px 100px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.logo{
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+.status{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.status-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--yellow);
+  display:inline-block;
+  margin-right:7px;
+}
+
+.status-dot.protected{background:var(--green)}
+.status-dot.danger{background:var(--red)}
+
+.hero{
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,#0e0e11,#080809);
+  border-radius:28px;
+  padding:28px 22px;
+  text-align:center;
+  box-shadow:0 20px 80px rgba(0,0,0,.35);
+}
+
+.hero-label{
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.hero-state{
+  font-size:34px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.hero-ip{
+  font-family:ui-monospace,monospace;
+  font-size:13px;
+  color:var(--muted);
+  min-height:20px;
+}
+
+.connect{
+  margin:25px auto 4px;
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  border:1px solid #303038;
+  background:#0d0d10;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.connect:hover{
+  transform:scale(1.03);
+  border-color:#555;
+}
+
+.connect:disabled{
+  opacity:.5;
+  cursor:wait;
+  transform:none;
+}
+
+.connect.active{
+  border-color:var(--green);
+  box-shadow:0 0 55px rgba(53,229,138,.12);
+}
+
+.connect small{
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:2px;
+  margin-top:5px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:14px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px;
+}
+
+.card h3{
+  margin:0 0 15px;
+  font-size:12px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:#aaa;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:9px 0;
+  border-bottom:1px solid #151518;
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.value{
+  font-size:12px;
+  font-family:ui-monospace,monospace;
+  text-align:right;
+  word-break:break-word;
+}
+
+.good{color:var(--green)}
+.warn{color:var(--yellow)}
+.bad{color:var(--red)}
+.blue{color:var(--blue)}
+
+.section{
+  margin-top:14px;
+}
+
+.exposure{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.exposure-item{
+  padding:13px;
+  border-radius:14px;
+  background:#0a0a0c;
+  border:1px solid #17171b;
+}
+
+.exposure-item b{
+  display:block;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.exposure-item span{
+  font-size:10px;
+  color:var(--muted);
+}
+
+.transport{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:13px 0;
+  border-bottom:1px solid #151518;
+}
+
+.transport:last-child{
+  border-bottom:0;
+}
+
+.transport-name{
+  font-size:13px;
+  font-weight:700;
+}
+
+.transport-meta{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.pill{
+  font-size:9px;
+  padding:5px 8px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  color:var(--muted);
+}
+
+.pill.active{
+  color:var(--green);
+  border-color:rgba(53,229,138,.3);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+}
+
+.action{
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:white;
+  border-radius:15px;
+  padding:14px;
+}
+
+.action:hover{
+  background:var(--panel2);
+}
+
+.action:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.event{
+  display:flex;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #151518;
+}
+
+.event:last-child{
+  border-bottom:0;
+}
+
+.event-time{
+  font:10px ui-monospace;
+  color:#555;
+  white-space:nowrap;
+}
+
+.event-text{
+  font-size:11px;
+  color:#bbb;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%);
+  background:#151519;
+  border:1px solid #29292f;
+  padding:12px 17px;
+  border-radius:14px;
+  font-size:12px;
+  display:none;
+  z-index:10;
+}
+
+.config{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
+.config input{
+  flex:1;
+  min-width:0;
+  background:#09090b;
+  color:#ddd;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:11px 12px;
+  font:12px ui-monospace,monospace;
+}
+
+.config button{
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:#fff;
+  border-radius:12px;
+  padding:11px 14px;
+}
+
+@media(max-width:620px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    padding:24px 16px;
+  }
+
+  .hero-state{
+    font-size:28px;
+  }
+
+  .exposure{
+    grid-template-columns:1fr;
+  }
+
+  .config{
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="top">
+  <div class="logo">AEGIS</div>
+
+  <div class="status">
+    <span id="statusDot" class="status-dot"></span>
+    <span id="connectionStatus">INITIALIZING</span>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="hero-label">
+    NETWORK BOUNDARY
+  </div>
+
+  <div id="heroState" class="hero-state">
+    OBSERVING
+  </div>
+
+  <div id="heroIp" class="hero-ip">
+    discovering external identity...
+  </div>
+
+  <button
+    id="connectButton"
+    class="connect"
+    onclick="toggleProtection()"
+  >
+    <strong id="connectText">CONNECT</strong>
+    <small id="connectSub">AEGIS</small>
+  </button>
+
+</section>
+
+
+<!-- IDENTITY / NETWORK -->
+
+<div class="grid">
+
+<section class="card">
+
+  <h3>Public Identity</h3>
+
+  <div class="row">
+    <span class="label">IPv4</span>
+    <span id="publicIpv4" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">IPv6</span>
+    <span id="publicIpv6" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">ASN</span>
+    <span id="asn" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">Provider</span>
+    <span id="provider" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">Location</span>
+    <span id="location" class="value">—</span>
+  </div>
+
+</section>
+
+
+<section class="card">
+
+  <h3>Network Path</h3>
+
+  <div class="row">
+    <span class="label">Interface</span>
+    <span id="interface" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">Local IPv4</span>
+    <span id="localIpv4" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">Gateway</span>
+    <span id="gateway" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">DNS</span>
+    <span id="dns" class="value">—</span>
+  </div>
+
+  <div class="row">
+    <span class="label">Route</span>
+    <span id="route" class="value">—</span>
+  </div>
+
+</section>
+
+</div>
+
+
+<!-- EXPOSURE -->
+
+<section class="card section">
+
+<h3>Network Exposure</h3>
+
+<div class="exposure">
+
+  <div class="exposure-item">
+    <b id="expIpv4">● IPv4</b>
+    <span>Public identity exposure</span>
+  </div>
+
+  <div class="exposure-item">
+    <b id="expIpv6">● IPv6</b>
+    <span>IPv6 boundary</span>
+  </div>
+
+  <div class="exposure-item">
+    <b id="expDns">● DNS</b>
+    <span>DNS path exposure</span>
+  </div>
+
+  <div class="exposure-item">
+    <b id="expWebrtc">● WebRTC</b>
+    <span>Application leak surface</span>
+  </div>
+
+  <div class="exposure-item">
+    <b id="expRoute">● Route</b>
+    <span>Direct routing</span>
+  </div>
+
+  <div class="exposure-item">
+    <b id="expTransport">● Transport</b>
+    <span>Privacy transport</span>
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- TRANSPORT -->
+
+<section class="card section">
+
+<h3>Transport Fabric</h3>
+
+<div id="transportList">
+
+  <div class="transport">
+    <div>
+      <div class="transport-name">WireGuard</div>
+      <div class="transport-meta">VPN</div>
+    </div>
+    <span class="pill">UNKNOWN</span>
+  </div>
+
+  <div class="transport">
+    <div>
+      <div class="transport-name">OpenVPN</div>
+      <div class="transport-meta">VPN</div>
+    </div>
+    <span class="pill">UNKNOWN</span>
+  </div>
+
+  <div class="transport">
+    <div>
+      <div class="transport-name">Tor</div>
+      <div class="transport-meta">SOCKS</div>
+    </div>
+    <span class="pill">UNKNOWN</span>
+  </div>
+
+  <div class="transport">
+    <div>
+      <div class="transport-name">SOCKS5</div>
+      <div class="transport-meta">Proxy</div>
+    </div>
+    <span class="pill">UNKNOWN</span>
+  </div>
+
+  <div class="transport">
+    <div>
+      <div class="transport-name">HTTP CONNECT</div>
+      <div class="transport-meta">Proxy</div>
+    </div>
+    <span class="pill">UNKNOWN</span>
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- VERIFICATION / AUTOPILOT -->
+
+<div class="grid section">
+
+<section class="card">
+
+<h3>Verification Fabric</h3>
+
+<div class="row">
+  <span class="label">External endpoint</span>
+  <span id="verifyExternal" class="value">PENDING</span>
+</div>
+
+<div class="row">
+  <span class="label">Route binding</span>
+  <span id="verifyRoute" class="value">PENDING</span>
+</div>
+
+<div class="row">
+  <span class="label">DNS path</span>
+  <span id="verifyDns" class="value">PENDING</span>
+</div>
+
+<div class="row">
+  <span class="label">IPv6 boundary</span>
+  <span id="verifyIpv6" class="value">PENDING</span>
+</div>
+
+<div class="row">
+  <span class="label">Provider</span>
+  <span id="verifyProvider" class="value">PENDING</span>
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h3>Autopilot</h3>
+
+<div class="row">
+  <span class="label">Automatic rotation</span>
+  <span class="value good">READY</span>
+</div>
+
+<div class="row">
+  <span class="label">Verify before bind</span>
+  <span class="value good">ENABLED</span>
+</div>
+
+<div class="row">
+  <span class="label">Fail closed</span>
+  <span class="value good">ENABLED</span>
+</div>
+
+<div class="row">
+  <span class="label">Background monitoring</span>
+  <span class="value good">READY</span>
+</div>
+
+<div class="actions">
+
+  <button
+    id="rotateBtn"
+    class="action"
+    onclick="rotateTransport()"
+  >
+    ROTATE
+  </button>
+
+  <button
+    class="action"
+    onclick="refreshState()"
+  >
+    REFRESH
+  </button>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- EVENTS -->
+
+<section class="card section">
+
+<h3>AEGIS Event Stream</h3>
+
+<div id="events"></div>
+
+</section>
+
+
+<!-- BACKEND CONFIG -->
+
+<section class="config">
+
+<input
+  id="apiBase"
+  type="url"
+  spellcheck="false"
+  placeholder="https://your-aegis-api.example/api"
+>
+
+<button onclick="saveApiBase()">
+  SAVE API
+</button>
+
+</section>
+
+</main>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+"use strict";
+
+
+/*
+==========================================================
+AEGIS FRONTEND CONFIGURATION
+==========================================================
+
+The GitHub Pages frontend cannot know your backend address.
+
+Set it here OR enter it in the API field at the bottom.
+
+Example:
+
+https://api.example.com/api
+
+For local development:
+
+http://localhost:8080/api
+
+IMPORTANT:
+When this frontend is hosted on GitHub Pages (HTTPS),
+your production backend must normally also be HTTPS.
+The backend must also allow CORS from the GitHub Pages origin.
+==========================================================
+*/
+
+const DEFAULT_API_BASE =
+  "https://YOUR-AEGIS-BACKEND.example/api";
+
+
+const AEGIS = {
+
+  get API_BASE(){
+
+    return (
+      localStorage.getItem("aegis_api_base") ||
+      DEFAULT_API_BASE
+    );
+
+  },
+
+  endpoints: {
+
+    state:
+      "/network/state",
+
+    providers:
+      "/transport/providers",
+
+    establish:
+      "/transport/establish",
+
+    verify:
+      "/transport/verify",
+
+    rotate:
+      "/transport/rotate",
+
+    recover:
+      "/transport/recover"
+
+  }
+
+};
+
+
+let protectedMode = false;
+let busy = false;
+
+
+/* ========================================================
+   BASIC HELPERS
+======================================================== */
+
+function apiUrl(path){
+
+  return (
+    AEGIS.API_BASE.replace(/\/+$/,"") +
+    path
+  );
+
+}
+
+
+function setText(id,value){
+
+  const element =
+    document.getElementById(id);
+
+  if(!element) return;
+
+  element.textContent =
+    value === undefined ||
+    value === null ||
+    value === ""
+      ? "—"
+      : value;
+
+}
+
+
+function toast(message){
+
+  const element =
+    document.getElementById("toast");
+
+  element.textContent = message;
+
+  element.style.display = "block";
+
+  clearTimeout(window.__aegisToast);
+
+  window.__aegisToast =
+    setTimeout(
+      () => {
+        element.style.display = "none";
+      },
+      3000
+    );
+
+}
+
+
+function addEvent(message){
+
+  const container =
+    document.getElementById("events");
+
+  const item =
+    document.createElement("div");
+
+  item.className = "event";
+
+
+  const time =
+    document.createElement("span");
+
+  time.className = "event-time";
+
+  time.textContent =
+    new Date().toLocaleTimeString();
+
+
+  const text =
+    document.createElement("span");
+
+  text.className = "event-text";
+
+  text.textContent = message;
+
+
+  item.append(time,text);
+
+  container.prepend(item);
+
+
+  while(container.children.length > 12){
+
+    container.lastElementChild.remove();
+
+  }
+
+}
+
+
+function setConnectionStatus(
+  status,
+  mode = "normal"
+){
+
+  setText(
+    "connectionStatus",
+    status
+  );
+
+
+  const dot =
+    document.getElementById("statusDot");
+
+
+  dot.className =
+    "status-dot";
+
+
+  if(mode === "protected"){
+    dot.classList.add("protected");
+  }
+
+
+  if(mode === "danger"){
+    dot.classList.add("danger");
+  }
+
+}
+
+
+function setResult(id,value){
+
+  const element =
+    document.getElementById(id);
+
+  if(!element) return;
+
+
+  element.textContent = value;
+
+
+  element.classList.remove(
+    "good",
+    "warn",
+    "bad"
+  );
+
+
+  const text =
+    String(value).toUpperCase();
+
+
+  if(
+    text.includes("PASS") ||
+    text.includes("VERIFIED") ||
+    text.includes("PROTECTED") ||
+    text.includes("ACTIVE")
+  ){
+
+    element.classList.add("good");
+
+  }
+
+
+  else if(
+    text.includes("PENDING") ||
+    text.includes("UNKNOWN") ||
+    text.includes("DEGRADED") ||
+    text.includes("AVAILABLE")
+  ){
+
+    element.classList.add("warn");
+
+  }
+
+
+  else if(
+    text.includes("FAIL") ||
+    text.includes("EXPOSED") ||
+    text.includes("DIRECT") ||
+    text.includes("UNAVAILABLE")
+  ){
+
+    element.classList.add("bad");
+
+  }
+
+}
+
+
+/* ========================================================
+   API
+======================================================== */
+
+async function api(
+  path,
+  options = {}
+){
+
+  const controller =
+    new AbortController();
+
+
+  const timeout =
+    setTimeout(
+      () => controller.abort(),
+      10000
+    );
+
+
+  try{
+
+    const response =
+      await fetch(
+        apiUrl(path),
+        {
+
+          ...options,
+
+          signal:
+            controller.signal,
+
+          headers:{
+
+            "Accept":
+              "application/json",
+
+            "Content-Type":
+              "application/json",
+
+            ...(options.headers || {})
+
+          }
+
+        }
+      );
+
+
+    const raw =
+      await response.text();
+
+
+    let body =
+      raw;
+
+
+    try{
+
+      body =
+        raw
+          ? JSON.parse(raw)
+          : null;
+
+    }
+
+    catch{
+
+      /* response was not JSON */
+
+    }
+
+
+    if(!response.ok){
+
+      const message =
+        typeof body === "object" &&
+        body &&
+        body.message
+
+          ? body.message
+
+          : `AEGIS API ${response.status}`;
+
+
+      throw new Error(message);
+
+    }
+
+
+    return body;
+
+  }
+
+  finally{
+
+    clearTimeout(timeout);
+
+  }
+
+}
+
+
+/* ========================================================
+   STATE
+======================================================== */
+
+function proofValue(
+  object,
+  key
+){
+
+  if(!object){
+    return "PENDING";
+  }
+
+
+  const value =
+    object[key] ??
+    object[key + "Proof"] ??
+    object[
+      key.charAt(0).toUpperCase() +
+      key.slice(1) +
+      "Proof"
+    ];
+
+
+  if(value === true)
+    return "PASS";
+
+
+  if(value === false)
+    return "FAIL";
+
+
+  if(
+    value === undefined ||
+    value === null
+  )
+    return "PENDING";
+
+
+  return String(value);
+
+}
+
+
+function applyState(data){
+
+  const identity =
+    data.identity ||
+    data.publicIdentity ||
+    {};
+
+
+  const network =
+    data.network ||
+    data.networkPath ||
+    {};
+
+
+  const exposure =
+    data.exposure ||
+    {};
+
+
+  const verification =
+    data.verification ||
+    {};
+
+
+  const transport =
+    data.transport ||
+    {};
+
+
+  /*
+  PUBLIC IDENTITY
+  */
+
+  setText(
+    "publicIpv4",
+    identity.ipv4 ??
+    data.ipv4
+  );
+
+
+  setText(
+    "publicIpv6",
+    identity.ipv6 ??
+    data.ipv6
+  );
+
+
+  setText(
+    "asn",
+    identity.asn ??
+    data.asn
+  );
+
+
+  setText(
+    "provider",
+    identity.provider ??
+    identity.isp ??
+    data.provider
+  );
+
+
+  setText(
+    "location",
+
+    identity.location ??
+
+    [
+      identity.city,
+      identity.region,
+      identity.country
+
+    ]
+    .filter(Boolean)
+    .join(", ")
+
+  );
+
+
+  setText(
+    "heroIp",
+
+    identity.ipv4 ??
+    data.ipv4 ??
+    "identity unavailable"
+
+  );
+
+
+  /*
+  NETWORK
+  */
+
+  setText(
+    "interface",
+    network.interface ??
+    data.interface
+  );
+
+
+  setText(
+    "localIpv4",
+    network.localIpv4 ??
+    network.ipv4 ??
+    data.localIpv4
+  );
+
+
+  setText(
+    "gateway",
+    network.gateway ??
+    data.gateway
+  );
+
+
+  setText(
+    "dns",
+    network.dns ??
+    data.dns
+  );
+
+
+  setText(
+    "route",
+    network.route ??
+    data.route
+  );
+
+
+  /*
+  EXPOSURE
+  */
+
+  setResult(
+    "expIpv4",
+
+    exposure.ipv4 === true
+
+      ? "● IPv4 PROTECTED"
+
+      : exposure.ipv4 === false
+
+        ? "● IPv4 EXPOSED"
+
+        : "● IPv4 UNKNOWN"
+
+  );
+
+
+  setResult(
+    "expIpv6",
+
+    exposure.ipv6 === true
+
+      ? "● IPv6 PROTECTED"
+
+      : exposure.ipv6 === false
+
+        ? "● IPv6 EXPOSED"
+
+        : "● IPv6 UNKNOWN"
+
+  );
+
+
+  setResult(
+    "expDns",
+
+    exposure.dns === true
+
+      ? "● DNS PROTECTED"
+
+      : exposure.dns === false
+
+        ? "● DNS EXPOSED"
+
+        : "● DNS UNKNOWN"
+
+  );
+
+
+  setResult(
+    "expWebrtc",
+
+    exposure.webrtc === true
+
+      ? "● WebRTC PROTECTED"
+
+      : exposure.webrtc === false
+
+        ? "● WebRTC POTENTIAL"
+
+        : "● WebRTC UNKNOWN"
+
+  );
+
+
+  setResult(
+    "expRoute",
+
+    exposure.route === true
+
+      ? "● ROUTE PROTECTED"
+
+      : exposure.route === false
+
+        ? "● DIRECT ROUTE"
+
+        : "● ROUTE UNKNOWN"
+
+  );
+
+
+  setResult(
+    "expTransport",
+
+    exposure.transport === true
+
+      ? "● TRANSPORT VERIFIED"
+
+      : exposure.transport === false
+
+        ? "● NO VERIFIED TRANSPORT"
+
+        : "● TRANSPORT UNKNOWN"
+
+  );
+
+
+  /*
+  VERIFICATION
+  */
+
+  setResult(
+    "verifyExternal",
+    proofValue(
+      verification,
+      "externalEndpoint"
+    )
+  );
+
+
+  setResult(
+    "verifyRoute",
+    proofValue(
+      verification,
+      "routeBinding"
+    )
+  );
+
+
+  setResult(
+    "verifyDns",
+    proofValue(
+      verification,
+      "dnsPath"
+    )
+  );
+
+
+  setResult(
+    "verifyIpv6",
+    proofValue(
+      verification,
+      "ipv6Boundary"
+    )
+  );
+
+
+  setResult(
+    "verifyProvider",
+    proofValue(
+      verification,
+      "provider"
+    )
+  );
+
+
+  /*
+  PROTECTED STATE
+  */
+
+  protectedMode =
+    transport.verified === true ||
+    verification.status === "VERIFIED" ||
+    data.status === "PROTECTED";
+
+
+  document.getElementById(
+    "heroState"
+  ).textContent =
+
+    protectedMode
+
+      ? "PROTECTED"
+
+      : data.status ||
+        "OBSERVING";
+
+
+  document
+    .getElementById("connectButton")
+    .classList
+    .toggle(
+      "active",
+      protectedMode
+    );
+
+
+  setText(
+    "connectText",
+    protectedMode
+      ? "DISCONNECT"
+      : "CONNECT"
+  );
+
+
+  setText(
+    "connectSub",
+    protectedMode
+      ? "PROTECTED"
+      : "AEGIS"
+  );
+
+
+  setConnectionStatus(
+
+    protectedMode
+      ? "PROTECTED"
+      : "OBSERVING",
+
+    protectedMode
+      ? "protected"
+      : "normal"
+
+  );
+
+
+  /*
+  PROVIDERS
+  */
+
+  if(
+    Array.isArray(
+      data.providers
+    )
+  ){
+
+    renderProviders(
+      data.providers
+    );
+
+  }
+
+}
+
+
+/* ========================================================
+   TRANSPORT PROVIDERS
+======================================================== */
+
+function renderProviders(
+  providers
+){
+
+  const container =
+    document.getElementById(
+      "transportList"
+    );
+
+
+  container.replaceChildren();
+
+
+  if(!providers.length){
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "transport";
+
+    row.textContent =
+      "No transport providers reported.";
+
+    container.appendChild(row);
+
+    return;
+
+  }
+
+
+  for(
+    const provider of providers
+  ){
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "transport";
+
+
+    const left =
+      document.createElement("div");
+
+
+    const name =
+      document.createElement("div");
+
+    name.className =
+      "transport-name";
+
+    name.textContent =
+      provider.Provider ??
+      provider.name ??
+      "Unknown";
+
+
+    const meta =
+      document.createElement("div");
+
+    meta.className =
+      "transport-meta";
+
+    meta.textContent =
+      provider.Type ??
+      provider.type ??
+      "Transport";
+
+
+    left.append(
+      name,
+      meta
+    );
+
+
+    const pill =
+      document.createElement("span");
+
+    pill.className =
+      "pill";
+
+
+    const verified =
+      provider.Verified === true ||
+      provider.verified === true;
+
+
+    const active =
+      provider.Active === true ||
+      provider.active === true;
+
+
+    const available =
+      provider.Available === true ||
+      provider.available === true;
+
+
+    if(active && verified){
+
+      pill.textContent =
+        "ACTIVE";
+
+      pill.classList.add(
+        "active"
+      );
+
+    }
+
+    else if(available){
+
+      pill.textContent =
+        "AVAILABLE";
+
+    }
+
+    else{
+
+      pill.textContent =
+        "UNAVAILABLE";
+
+    }
+
+
+    row.append(
+      left,
+      pill
+    );
+
+
+    container.appendChild(
+      row
+    );
+
+  }
+
+}
+
+
+/* ========================================================
+   REFRESH
+======================================================== */
+
+async function refreshState(){
+
+  if(busy)
+    return;
+
+
+  try{
+
+    const state =
+      await api(
+        AEGIS.endpoints.state
+      );
+
+
+    applyState(state);
+
+
+    /*
+    Provider endpoint is intentionally
+    independent so provider failure does
+    not destroy the main state view.
+    */
+
+    try{
+
+      const result =
+        await api(
+          AEGIS.endpoints.providers
+        );
+
+
+      renderProviders(
+
+        Array.isArray(result)
+
+          ? result
+
+          : result.providers || []
+
+      );
+
+    }
+
+    catch{
+
+      /* provider endpoint unavailable */
+
+    }
+
+
+    setConnectionStatus(
+
+      protectedMode
+        ? "PROTECTED"
+        : "OBSERVING",
+
+      protectedMode
+        ? "protected"
+        : "normal"
+
+    );
+
+
+    addEvent(
+      "Network state synchronized with AEGIS."
+    );
+
+  }
+
+  catch(error){
+
+    setConnectionStatus(
+      "BACKEND OFFLINE",
+      "danger"
+    );
+
+
+    document.getElementById(
+      "heroState"
+    ).textContent =
+      "OFFLINE";
+
+
+    addEvent(
+
+      error.name === "AbortError"
+
+        ? "AEGIS control plane request timed out."
+
+        : "Unable to reach AEGIS control plane."
+
+    );
+
+  }
+
+}
+
+
+/* ========================================================
+   OPERATIONS
+======================================================== */
+
+async function runOperation(
+  endpoint,
+  payload,
+  eventMessage
+){
+
+  if(busy)
+    return;
+
+
+  busy = true;
+
+
+  const connectButton =
+    document.getElementById(
+      "connectButton"
+    );
+
+
+  const rotateButton =
+    document.getElementById(
+      "rotateBtn"
+    );
+
+
+  connectButton.disabled =
+    true;
+
+  rotateButton.disabled =
+    true;
+
+
+  try{
+
+    await api(
+
+      endpoint,
+
+      {
+
+        method:"POST",
+
+        body:
+          JSON.stringify(
+            payload || {}
+          )
+
+      }
+
+    );
+
+
+    addEvent(
+      eventMessage
+    );
+
+
+    toast(
+      "AEGIS operation accepted"
+    );
+
+
+    await refreshState();
+
+  }
+
+  catch(error){
+
+    addEvent(
+      "AEGIS operation failed: " +
+      error.message
+    );
+
+
+    toast(
+      "AEGIS operation failed"
+    );
+
+  }
+
+  finally{
+
+    busy = false;
+
+    connectButton.disabled =
+      false;
+
+    rotateButton.disabled =
+      false;
+
+  }
+
+}
+
+
+function toggleProtection(){
+
+  if(protectedMode){
+
+    runOperation(
+
+      AEGIS.endpoints.recover,
+
+      {
+        action:"disconnect"
+      },
+
+      "Protection boundary release requested."
+
+    );
+
+  }
+
+  else{
+
+    runOperation(
+
+      AEGIS.endpoints.establish,
+
+      {
+        operation:"EstablishTransport",
+        verifyBeforeBind:true
+      },
+
+      "Transport establishment requested."
+
+    );
+
+  }
+
+}
+
+
+function rotateTransport(){
+
+  runOperation(
+
+    AEGIS.endpoints.rotate,
+
+    {
+      verifyBeforeBind:true
+    },
+
+    "Transport rotation requested."
+
+  );
+
+}
+
+
+/* ========================================================
+   API CONFIG
+======================================================== */
+
+function saveApiBase(){
+
+  const input =
+    document.getElementById(
+      "apiBase"
+    );
+
+
+  const value =
+    input.value
+      .trim()
+      .replace(/\/+$/,"");
+
+
+  if(
+    !/^https?:\/\/.+/i.test(
+      value
+    )
+  ){
+
+    toast(
+      "Enter a valid HTTP(S) API URL"
+    );
+
+    return;
+
+  }
+
+
+  localStorage.setItem(
+    "aegis_api_base",
+    value
+  );
+
+
+  toast(
+    "AEGIS API endpoint saved"
+  );
+
+
+  refreshState();
+
+}
+
+
+/* ========================================================
+   STARTUP
+======================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    document.getElementById(
+      "apiBase"
+    ).value =
+      AEGIS.API_BASE;
+
+
+    addEvent(
+      "AEGIS interface initialized."
+    );
+
+
+    addEvent(
+      "Waiting for control plane..."
+    );
+
+
+    refreshState();
+
+
+    /*
+    Background state synchronization.
+    */
+
+    setInterval(
+      refreshState,
+      15000
+    );
+
+  }
+);
+
+</script>
+
+</body>
+</html>
+```
