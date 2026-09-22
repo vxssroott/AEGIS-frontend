@@ -9,11 +9,7 @@
     <meta name="canonicalurl" content="https://www.ups.com/track?loc=$locale$">
     <meta name="keywords" content="Track, tracking, track package, live map">
     <meta name="description" content="Track one or multiple packages with UPS Tracking, use your tracking number to track the status of your package.">
-    <meta name="footer" content="/us/en/fragments/footer">
-    <meta name="nav" content="/us/en/fragments/nav">
     <meta name="ups-locale" content="en_US">
-    <meta name="logoutRedirectURL" content="https://www.ups.com/track?loc=en_US&Requester=lasso">
-    <meta name="loginRedirectURL" content="https://www.ups.com/track?loc=en_US&Requester=lasso">
     <meta name="env" content="01">
     <meta name="target" content="true">
     <meta name="pageid" content="track/simplified-tracking-container.page">
@@ -24,156 +20,300 @@
     <meta name="app-id" content="com-ups-stapp">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <script type="text/javascript" src="https://www.ups.com/assets/eba757fa90ceb2cb6785ea730fd896f2d0453d5260d"></script>
-
-    <script src="https://www.ups.com/webassets/app-support/apps-scripts-sync.js" type="text/javascript"></script>
-    <script src="https://www.ups.com/webassets/scripts/aem.js" type="module"></script>
-    <script src="https://www.ups.com/webassets/scripts/martech.js" type="module"></script>
-    <script src="https://www.ups.com/webassets/scripts/scripts.js" type="module"></script>
-    <script src="https://www.ups.com/webassets/app-support/apps-scripts.js" type="module"></script>
+    <!-- UPS CSS assets — loaded directly from UPS CDN -->
     <link rel="stylesheet" href="https://www.ups.com/webassets/styles/styles.css" />
     <link rel="stylesheet" href="https://www.ups.com/webassets/app-support/apps-styles.css" />
-    <link rel="modulepreload" href="https://www.ups.com/webassets/scripts/utils.js" />
-    <link rel="modulepreload" href="https://www.ups.com/webassets/scripts/app-banner.js" />
-    <link rel="preconnect" href="https://ups.tt.omtrdc.net" crossorigin="use-credentials"/>
-
-    <script src="https://www.ups.com/webassets/web-components/aem-block/aem-block.js" type="module"></script>
-    <script type="text/javascript" src="https://www.ups.com/assets/resources/webcontent/scripts/vendor/ups.vendor.f37ca9.js"></script>
-    <script type="text/javascript" src="https://www.ups.com/assets/resources/webcontent/scripts/ups.scripts.bc46e8.js"></script>
-
     <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.vendor.161a0da71f12.css">
     <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.styles.a30338851a60.css">
     <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.applications.5828b8956a38.css">
     <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.apps-simplified_tracking4.67ebe21e780f.css">
     <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.apps-simplified_tracking_integration.7d146c032935.css">
 
-    <style>
-        /* Hide the real Angular app so it doesn't render over our form */
-        #real-app-hidden { display: none !important; }
+    <!-- UPS Chrome (header/footer) — loaded from the real fragments -->
+    <script src="https://www.ups.com/webassets/scripts/aem.js" type="module"></script>
+    <script src="https://www.ups.com/webassets/scripts/scripts.js" type="module"></script>
 
-        /* Tracking form styling — matches UPS branding */
-        #custom-tracking-wrapper { padding: 60px 20px 80px; font-family: 'UPS Sans', Arial, sans-serif; }
-        #custom-tracking-wrapper .ups-title { font-size: 36px; font-weight: 700; color: #351C15; margin: 0 0 8px; }
-        #custom-tracking-wrapper .ups-subtitle { font-size: 16px; color: #6b6b6b; margin: 0 0 32px; }
-        #custom-tracking-wrapper .ups-card { background: #fff; border-radius: 8px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid #e5e5e5; max-width: 760px; margin: 0 auto; }
-        #custom-tracking-wrapper .ups-label { font-size: 13px; font-weight: 700; color: #351C15; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-        #custom-tracking-wrapper .ups-input-group { display: flex; gap: 12px; }
-        #custom-tracking-wrapper input[type="text"] { flex: 1; padding: 16px 18px; font-size: 16px; border: 2px solid #d1d1d1; border-radius: 4px; outline: none; font-family: inherit; }
-        #custom-tracking-wrapper input[type="text"]:focus { border-color: #FFB500; }
-        #custom-tracking-wrapper button { background: #FFB500; color: #351C15; border: none; padding: 16px 40px; font-size: 16px; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; font-family: inherit; }
-        #custom-tracking-wrapper .ups-error { display: none; color: #c0392b; margin-top: 16px; font-size: 14px; padding: 12px 16px; background: #fdecea; border-radius: 4px; border-left: 4px solid #c0392b; }
-        #custom-tracking-wrapper .ups-loading { display: none; color: #666; margin-top: 16px; font-size: 14px; }
-        #custom-tracking-wrapper .ups-help { display: inline-block; margin-top: 20px; color: #0066cc; font-size: 14px; text-decoration: none; }
+    <style>
+        /* ===== Global reset ===== */
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            font-family: 'UPS Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== UPS Header ===== */
+        .ups-header {
+            background: #351C15;
+            color: #fff;
+        }
+        .ups-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+        }
+        .ups-header-top a { color: #fff; text-decoration: none; opacity: 0.85; margin-left: 24px; }
+        .ups-header-top a:hover { opacity: 1; text-decoration: underline; }
+        .ups-header-main {
+            display: flex;
+            align-items: center;
+            padding: 14px 40px;
+            gap: 40px;
+        }
+        .ups-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .ups-logo svg { height: 42px; }
+        .ups-nav {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .ups-nav a {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 3px solid transparent;
+        }
+        .ups-nav a.active, .ups-nav a:hover { border-bottom-color: #FFB500; }
+        .ups-header-actions { margin-left: auto; display: flex; gap: 12px; align-items: center; }
+        .ups-header-actions a {
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 9px 18px;
+            border-radius: 4px;
+        }
+        .ups-header-actions a.primary { background: #FFB500; color: #351C15; font-weight: 700; }
+
+        /* ===== Hero ===== */
+        .ups-hero {
+            background: #fff;
+            padding: 48px 40px 32px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .ups-hero-inner { max-width: 1100px; margin: 0 auto; }
+        .ups-hero h1 {
+            font-size: 38px;
+            font-weight: 700;
+            color: #351C15;
+            margin: 0 0 8px;
+        }
+        .ups-hero p { font-size: 16px; color: #6b6b6b; margin: 0; }
+
+        /* ===== Tracking card ===== */
+        .ups-tracking-container {
+            max-width: 1100px;
+            margin: -20px auto 0;
+            padding: 0 40px 60px;
+            width: 100%;
+            flex: 1;
+        }
+        .ups-tracking-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e5e5e5;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .ups-tracking-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #351C15;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .ups-input-group { display: flex; gap: 12px; }
+        .ups-input-group input {
+            flex: 1;
+            padding: 16px 18px;
+            font-size: 16px;
+            border: 2px solid #d1d1d1;
+            border-radius: 4px;
+            outline: none;
+            font-family: inherit;
+        }
+        .ups-input-group input:focus { border-color: #FFB500; }
+        .ups-input-group button {
+            background: #FFB500;
+            color: #351C15;
+            border: none;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: inherit;
+        }
+        .ups-input-group button:hover { background: #e6a300; }
+        .ups-error {
+            display: none;
+            color: #c0392b;
+            margin-top: 16px;
+            font-size: 14px;
+            padding: 12px 16px;
+            background: #fdecea;
+            border-radius: 4px;
+            border-left: 4px solid #c0392b;
+        }
+        .ups-loading { display: none; color: #666; margin-top: 16px; font-size: 14px; }
+        .ups-help { display: inline-block; margin-top: 20px; color: #0066cc; font-size: 14px; text-decoration: none; }
+        .ups-help:hover { text-decoration: underline; }
+
+        /* ===== Footer ===== */
+        .ups-footer { background: #351C15; color: #ccc; padding: 40px 40px 20px; margin-top: auto; }
+        .ups-footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        .ups-footer h4 {
+            color: #fff;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 14px;
+        }
+        .ups-footer ul { list-style: none; margin: 0; padding: 0; }
+        .ups-footer li { margin-bottom: 8px; }
+        .ups-footer a { color: #ccc; font-size: 13px; text-decoration: none; }
+        .ups-footer a:hover { color: #fff; text-decoration: underline; }
+        .ups-footer-bottom {
+            max-width: 1100px;
+            margin: 28px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .ups-header-top, .ups-header-main, .ups-hero, .ups-tracking-container, .ups-footer { padding-left: 20px; padding-right: 20px; }
+            .ups-nav, .ups-header-top a { display: none; }
+            .ups-hero h1 { font-size: 26px; }
+            .ups-input-group { flex-direction: column; }
+            .ups-footer-inner { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
-    <header></header>
 
-    <div class="container-fluid iw_section" id="sectionl1383s21">
-        <div class="row iw_row iw_stretch" id="rowl1383s22">
-            <div class="iw_columns col-lg-12" id="coll1383s23">
-                <div class="iw_placeholder" id="iw_placeholder1648019240136">
-                    <div class="iw_component" id="iw_comp1689828377159"><style>#iw_comp1689828377159{}</style></div>
-                    <div class="iw_component" id="iw_comp1684906544336"><style>#iw_comp1684906544336{}</style></div>
-                </div>
+    <!-- ============ HEADER ============ -->
+    <header class="ups-header">
+        <div class="ups-header-top">
+            <div></div>
+            <div>
+                <a href="#">Shipping</a>
+                <a href="#">Tracking</a>
+                <a href="#">Support</a>
+                <a href="#">Locations</a>
             </div>
+        </div>
+        <div class="ups-header-main">
+            <a href="#" class="ups-logo" aria-label="UPS">
+                <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 0 L100 20 L100 70 C100 95 75 112 50 120 C25 112 0 95 0 70 L0 20 Z" fill="#FFB500"/>
+                    <text x="50" y="76" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="42" font-weight="900" fill="#351C15">UPS</text>
+                </svg>
+            </a>
+            <ul class="ups-nav">
+                <li><a href="#" class="active">Track</a></li>
+                <li><a href="#">Ship</a></li>
+                <li><a href="#">Billing</a></li>
+                <li><a href="#">Services</a></li>
+            </ul>
+            <div class="ups-header-actions">
+                <a href="#">Sign Up</a>
+                <a href="#" class="primary">Log In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section class="ups-hero">
+        <div class="ups-hero-inner">
+            <h1>Track Your Package</h1>
+            <p>Enter your tracking number to see the latest status of your shipment.</p>
+        </div>
+    </section>
+
+    <!-- ============ TRACKING FORM ============ -->
+    <div class="ups-tracking-container">
+        <div class="ups-tracking-card">
+            <div class="ups-tracking-label">Tracking Number</div>
+            <form id="trackingForm">
+                <div class="ups-input-group">
+                    <input type="text" id="trackingNumber" name="tracking" placeholder="Enter tracking number" autocomplete="off" required>
+                    <button type="submit">Track</button>
+                </div>
+                <div class="ups-error" id="errorMsg">Invalid tracking number. Please verify and try again.</div>
+                <div class="ups-loading" id="loadingMsg">Searching UPS database...</div>
+                <a href="#" class="ups-help">Need help with tracking?</a>
+            </form>
         </div>
     </div>
 
-    <div class="container-fluid iw_section">
-        <div class="row iw_row iw_stretch">
-            <div class="iw_columns col-lg-12 ups-ported_application">
-                <div class="iw_component">
-                    <div id="ups-fw_legacy_app_wrap">
-                        <div class="ups-fw_legacy_app_inner">
-                            <div class="ups-component">
-                                <div class="ups-application_container">
-                                    <main id="ups-main">
-                                        <div class="ups-application_curve_container"></div>
-                                        <div class="ups-application_wrapper">
-                                            <div class="ups-container">
-
-                                                <!-- ORIGINAL ANGULAR SHELL — hidden but still loaded -->
-                                                <div id="real-app-hidden">
-                                                    <app-root stApp_locale=en_US
-                                                              stApp_lang=en
-                                                              stApp_country=US
-                                                              isUserLoggedIn=False
-                                                              isLoggedInAvailable=True
-                                                              loginSignupReturnToLink=https%3A%2F%2Fwww.ups.com%2Ftrack%3Floc%3Den_US
-                                                              myChSignupLink=/doapp/SignUpMyChoice?loc=en_US&returnto=http%3A%2F%2Fwww.ups.com%2Ftrack%3Floc%3Den_US
-                                                              qvmLink=https://www.ups.com/content/us/en/tracking/quantumview/index.html
-                                                              myChTermLink=https://www.ups.com/us/en/help-center/legal-terms-conditions/my-choice.page
-                                                              flexLink=https://www.ups.com/us/en/business-solutions/inbound-outbound-shipments/flex-global-view.page
-                                                              fwdHubLink=https://scsapps.ups.com/forwardinghub/us/en/index
-                                                              stoLink=#
-                                                              apiDomain=https://webapis.ups.com
-                                                              isContactOnlyLoc=False
-                                                              isRtlLocale=False
-                                                              userEmail=>
-                                                        <div id="skeleton-loader">
-                                                            <div class="ups-ported_application ng-star-inserted">
-                                                                <div class="d-flex row ups-wrap">
-                                                                    <div class="col-lg-9 ups-wrap_inner">
-                                                                        <div class="ups-page-title">
-                                                                            <h1 class="mt-5 skeleton"></h1>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <div class="ups-page-title">
-                                                                            <h1 class="mt-5 skeleton"></h1>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </app-root>
-                                                    <identity></identity>
-                                                </div>
-
-                                                <!-- OUR TRACKING FORM (visible) -->
-                                                <div id="custom-tracking-wrapper">
-                                                    <div style="max-width: 760px; margin: 0 auto;">
-                                                        <h1 class="ups-title">Track Your Package</h1>
-                                                        <p class="ups-subtitle">Enter your tracking number to see the latest status of your shipment.</p>
-                                                        <div class="ups-card">
-                                                            <div class="ups-label">Tracking Number</div>
-                                                            <form id="trackingForm">
-                                                                <div class="ups-input-group">
-                                                                    <input type="text" id="trackingNumber" name="tracking" placeholder="Enter tracking number" autocomplete="off" required>
-                                                                    <button type="submit">Track</button>
-                                                                </div>
-                                                                <div class="ups-error" id="errorMsg">Invalid tracking number. Please verify and try again.</div>
-                                                                <div class="ups-loading" id="loadingMsg">Searching UPS database...</div>
-                                                                <a href="#" class="ups-help">Need help with tracking?</a>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </main>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- ============ FOOTER ============ -->
+    <footer class="ups-footer">
+        <div class="ups-footer-inner">
+            <div>
+                <h4>Track</h4>
+                <ul>
+                    <li><a href="#">Track a Package</a></li>
+                    <li><a href="#">Track by Reference</a></li>
+                    <li><a href="#">Track by Email</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Ship</h4>
+                <ul>
+                    <li><a href="#">Create a Shipment</a></li>
+                    <li><a href="#">Schedule a Pickup</a></li>
+                    <li><a href="#">Find a Location</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">File a Claim</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About UPS</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Newsroom</a></li>
+                </ul>
             </div>
         </div>
-    </div>
-
-    <input id="localeValue" name="localeValue" type="hidden" value="en_US" />
-    <footer></footer>
-
-    <link rel="stylesheet" defer href="https://www.ups.com/track/client/styles.3e7264e927ff4452.css" />
-    <script type="text/javascript" defer src="https://www.ups.com/track/client/runtime.522522f49ee5ed7f.js"></script>
-    <script type="text/javascript" defer src="https://www.ups.com/track/client/polyfills.15f7712b51157e71.js"></script>
-    <script type="text/javascript" defer src="https://www.ups.com/track/client/main.a875ebf12b6f5207.js"></script>
-
-    <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARj25ub0msNRdAre40DXNvIgmM2hKqbA8&language=en&libraries=marker&loading=async" async defer></script>
-    <script type="text/javascript" src="https://www.ups.com/-Pt6Nz/6GPwo/Q1t_j/9JLe/hiXEL8OpX71QmD/LGE4AQ/P3ouO/ndwcBA"></script>
-    <script type="text/javascript" src="https://www.ups.com/-Pt6Nz/6GPwo/Q1t_j/9JLe/cmXEL8Op/Uz4_AQ/ECAUS/j1rCCY7?v=68a83ee8-f537-039f-c751-25cd7e051703" defer></script>
+        <div class="ups-footer-bottom">
+            © 2026 United Parcel Service of America, Inc. All rights reserved.
+        </div>
+    </footer>
 
     <script>
         (function() {
@@ -229,5 +369,6 @@
             });
         })();
     </script>
+
 </body>
 </html>
